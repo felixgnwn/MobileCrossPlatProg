@@ -1,20 +1,46 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { View, Text, Image, FlatList, StyleSheet } from 'react-native';
+import data from './data.json';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Felix Gunawan - 00000054245</Text>
-      <StatusBar style="auto" />
+const App = () => {
+
+  // Function to render each item
+  const renderItem = ({ item }) => (
+    <View style={styles.item}>
+      <Image source={{ uri: item.photo_url }} style={styles.image} />
+      <Text style={styles.name}>{item.name}</Text>
+      <Text style={styles.email}>{item.email}</Text>
     </View>
   );
-}
+
+  return (
+    <FlatList
+      data={data}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.email} // Unique key for each item
+    />
+  );
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
+  item: {
+    padding: 20,
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  image: {
+    width: 90,
+    height: 90,
+    borderRadius: 25,
+    marginRight: 10,
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  email: {
+    fontSize: 14,
+    color: 'gray',
   },
 });
+
+export default App;
